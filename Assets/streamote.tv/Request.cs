@@ -7,6 +7,7 @@ using UnityEngine.Experimental.Networking;
 using System.Collections;
 using System.Linq;
 using System;
+using LitJson;
 
 namespace SMTV {
 
@@ -45,7 +46,7 @@ namespace SMTV {
     }
 
     public Request<T> Post(System.Object json) {
-      var body = System.Text.Encoding.UTF8.GetBytes(JsonUtility.ToJson(json));
+      var body = System.Text.Encoding.UTF8.GetBytes(JsonMapper.ToJson(json));
       this.wr.method = "POST";
       this.wr.uploadHandler  = new UploadHandlerRaw(body);
       this.wr.uploadHandler.contentType = "application/json";
@@ -61,7 +62,7 @@ namespace SMTV {
         }
       }
       else {
-        this.resp = JsonUtility.FromJson<T>(this.wr.downloadHandler.text);
+        this.resp = JsonMapper.ToObject<T>(this.wr.downloadHandler.text);
         if (this.OnSuccess != null) {
           this.OnSuccess(this.resp);
         }
