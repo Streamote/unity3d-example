@@ -52,7 +52,7 @@ public class Example : MonoBehaviour {
       GameObject.Find("Broadcaster").GetComponent<Text>().text = this.myChannel.id;
     };
 
-    yield return req.Send();
+    yield return StartCoroutine(req.Send());
   }
 
   // This is an example of long-polling login using an external browser.
@@ -70,7 +70,7 @@ public class Example : MonoBehaviour {
       StartCoroutine(GetBroadcaster());
     };
 
-    yield return req.Send();
+    yield return StartCoroutine(req.Send());
   }
 
   void UpdateWager(ModelResponse mr) {
@@ -87,7 +87,7 @@ public class Example : MonoBehaviour {
     req.OnError += Debug.Log;
     req.OnSuccess += UpdateWager;
 
-    yield return req.Send();
+    yield return StartCoroutine(req.Send());
   }
 
   IEnumerator WagerScore() {
@@ -103,7 +103,7 @@ public class Example : MonoBehaviour {
         req.OnError += Debug.Log;
         req.OnSuccess += UpdateWager;
 
-        yield return req.Send();
+        yield return StartCoroutine(req.Send());
       }
 
       var wc = new WagerScoreBody();
@@ -120,7 +120,7 @@ public class Example : MonoBehaviour {
       req.OnError += Debug.Log;
       req.OnSuccess += UpdateWager;
 
-      yield return req.Send();
+      yield return StartCoroutine(req.Send());
     }
   }
 
@@ -133,7 +133,7 @@ public class Example : MonoBehaviour {
       req.OnError += Debug.Log;
       req.OnSuccess += UpdateWager;
 
-      yield return req.Send();
+      yield return StartCoroutine(req.Send());
     }
   }
 
@@ -146,7 +146,7 @@ public class Example : MonoBehaviour {
     req.OnError += Debug.Log;
     req.OnSuccess += UpdatePoll;
 
-    yield return req.Send();
+    yield return StartCoroutine(req.Send());
   }
 
   IEnumerator ClosePoll() {
@@ -158,7 +158,7 @@ public class Example : MonoBehaviour {
       req.OnError += Debug.Log;
       req.OnSuccess += UpdatePoll;
 
-      yield return req.Send();
+      yield return StartCoroutine(req.Send());
     }
   }
 
@@ -204,20 +204,20 @@ public class Example : MonoBehaviour {
         }
       };
       
-      yield return req.Send();
+      yield return StartCoroutine(req.Send());
     }
   }
 
   IEnumerator StartGame() {
     var options = new string[]{"a", "b", "c"};
-    yield return CreatePoll(options);
-    yield return CreateWager(options);
+    yield return StartCoroutine(CreatePoll(options));
+    yield return StartCoroutine(CreateWager(options));
   }
 
   IEnumerator StopGame() {
-    yield return ClosePoll();
-    yield return WagerScore();
-    yield return CloseWager();
+    yield return StartCoroutine(ClosePoll());
+    yield return StartCoroutine(WagerScore());
+    yield return StartCoroutine(CloseWager());
   }
 
   public void OnAuthClick() {
